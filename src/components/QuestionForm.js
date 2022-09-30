@@ -11,15 +11,30 @@ function QuestionForm(props) {
   });
 
   function handleChange(event) {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
+    let name=event.target.name;
+    let value=event.target.value;
+    setFormData({ ...formData,
+      [name]: value,
     });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+    const questions = {
+      prompt: formData.prompt,
+      answers: [
+        formData.answer1,
+        formData.answer2,
+        formData.answer3,
+        formData.answer4,
+      ],
+      correctIndex: parseInt(formData.correctIndex),
+    }
+    fetch ("http://localhost:4000/questions",{
+      method: 'POST',
+      headers:{"Content-Type": "application/json"},
+      body: JSON.stringify(questions),
+    });
   }
 
   return (
